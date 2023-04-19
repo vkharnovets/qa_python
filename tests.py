@@ -44,7 +44,6 @@ class TestBooksCollector:
 
     def test_get_books_with_specific_rating_get_two_of_three(self, collector):
         collector.add_new_book('book1')
-        collector.set_book_rating('book1', 1)
 
         collector.add_new_book('book2')
         collector.set_book_rating('book2', 2)
@@ -55,13 +54,16 @@ class TestBooksCollector:
         assert len(collector.get_books_with_specific_rating(2)) == 2
 
     def test_add_book_in_favorites_add_two_books(self, collector):
-        collector.add_new_book('book1')
-        collector.add_book_in_favorites('book1')
+        book1 = 'book1'
+        collector.add_new_book(book1)
+        collector.add_book_in_favorites(book1)
 
-        collector.add_new_book('book2')
-        collector.add_book_in_favorites('book2')
+        book2 = 'book2'
+        collector.add_new_book(book2)
+        collector.add_book_in_favorites(book2)
 
-        assert len(collector.get_list_of_favorites_books()) == 2
+        favorites = collector.get_list_of_favorites_books()
+        assert book1 in favorites and book2 in favorites
 
     def test_add_book_in_favorites_not_added_to_rating(self, collector):
         collector.add_book_in_favorites('book1')
@@ -74,4 +76,4 @@ class TestBooksCollector:
         collector.add_book_in_favorites(book_name)
         collector.delete_book_from_favorites(book_name)
 
-        assert len(collector.get_list_of_favorites_books()) == 0
+        assert book_name not in collector.get_list_of_favorites_books()
